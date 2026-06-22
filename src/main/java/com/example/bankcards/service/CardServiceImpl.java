@@ -29,7 +29,6 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -54,6 +53,9 @@ public class CardServiceImpl implements CardService {
     @Override
     @Transactional
     public CardResponse createCard(CreateCardRequest request) {
+        if (!cardNumberUtils.isValidLuhn(request.getNumber())) {
+            throw new IllegalArgumentException("Invalid card number: Luhn check failed");
+        }
         var numberHash = cardNumberUtils.hash(request.getNumber());
         if (cardRepository.existsByNumberHash(numberHash)) {
             throw new DuplicateCardNumberException();

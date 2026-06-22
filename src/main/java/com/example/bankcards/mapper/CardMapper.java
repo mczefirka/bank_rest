@@ -1,7 +1,6 @@
 package com.example.bankcards.mapper;
 
 import com.example.bankcards.dto.request.CreateCardRequest;
-import com.example.bankcards.dto.response.CardResponse;
 import com.example.bankcards.entity.Card;
 import com.example.bankcards.entity.User;
 import org.mapstruct.Mapper;
@@ -21,8 +20,6 @@ public interface CardMapper {
     @Mapping(target = "balance", ignore = true)
     @Mapping(target = "version", ignore = true)
     Card toEntity(CreateCardRequest request);
-
-    CardResponse toResponse(Card card);
 
     default User map(UUID userId) {
         if (userId == null) return null;

@@ -30,6 +30,7 @@ import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -91,10 +92,11 @@ class CardServiceImplTest {
         mappedCard.setHolder("John Doe");
         mappedCard.setExpirationDate(LocalDate.now().plusYears(3));
 
-        when(cardNumberUtils.hash("4532015112890367")).thenReturn("hash123");
+        when(cardNumberUtils.isValidLuhn(anyString())).thenReturn(true);
+        when(cardNumberUtils.hash(anyString())).thenReturn("hash123");
         when(cardRepository.existsByNumberHash("hash123")).thenReturn(false);
         when(cardMapper.toEntity(request)).thenReturn(mappedCard);
-        when(cardNumberUtils.lastFour("4532015112890367")).thenReturn("0367");
+        when(cardNumberUtils.lastFour(anyString())).thenReturn("0367");
         when(cardNumberUtils.mask("0367")).thenReturn("**** **** **** 0367");
         when(cardRepository.save(any(Card.class))).thenAnswer(invocation -> {
             var saved = invocation.<Card>getArgument(0);
@@ -118,7 +120,8 @@ class CardServiceImplTest {
         var request = new CreateCardRequest();
         request.setNumber("4532015112890367");
 
-        when(cardNumberUtils.hash("4532015112890367")).thenReturn("hash123");
+        when(cardNumberUtils.isValidLuhn(anyString())).thenReturn(true);
+        when(cardNumberUtils.hash(anyString())).thenReturn("hash123");
         when(cardRepository.existsByNumberHash("hash123")).thenReturn(true);
 
         assertThrows(DuplicateCardNumberException.class, () -> cardService.createCard(request));
