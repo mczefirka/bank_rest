@@ -1,0 +1,6 @@
+.specstory
+.kilo
+.vscode
+.idea
+target/
+*.iml

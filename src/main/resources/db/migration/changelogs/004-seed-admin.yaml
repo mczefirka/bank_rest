@@ -1,0 +1,29 @@
+databaseChangeLog:
+  - changeSet:
+      id: 004-seed-admin
+      author: zephyr
+      changes:
+        - insert:
+            tableName: users
+            columns:
+              - column:
+                  name: id
+                  value: a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11
+              - column:
+                  name: name
+                  value: Admin
+              - column:
+                  name: surname
+                  value: System
+              - column:
+                  name: birth_date
+                  value: 2000-01-01
+              - column:
+                  name: email
+                  value: admin@bank.com
+              - column:
+                  name: password_hash
+                  value: $2a$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92ldGxad68LJZdL17lhWy
+              - column:
+                  name: role
+                  value: ADMIN
